@@ -1,5 +1,5 @@
-FROM ubuntu:14.04.3
-MAINTAINER Ric Harvey <ric@ngineered.co.uk>
+FROM ubuntu:15.10
+MAINTAINER Diana Soares <dsoares@fc.up.pt>
 
 # Surpress Upstart errors/warning
 RUN dpkg-divert --local --rename --add /sbin/initctl
@@ -9,17 +9,11 @@ RUN ln -sf /bin/true /sbin/initctl
 ENV DEBIAN_FRONTEND noninteractive
 
 # Update base image
-# Add sources for latest nginx
 # Install software requirements
 RUN apt-get update && \
-apt-get install -y software-properties-common && \
-nginx=stable && \
-add-apt-repository ppa:nginx/$nginx && \
-apt-get update && \
 apt-get upgrade -y && \
-BUILD_PACKAGES="supervisor nginx php5-fpm git php5-mysql php-apc php5-curl php5-gd php5-intl php5-mcrypt php5-memcache php5-sqlite php5-tidy php5-xmlrpc php5-xsl php5-pgsql php5-mongo php5-ldap pwgen" && \
+BUILD_PACKAGES="supervisor nginx php5-fpm php5-mysql php-apc php5-curl php5-gd php5-intl php5-mcrypt php5-memcache php5-sqlite php5-tidy php5-xmlrpc php5-xsl pwgen" && \
 apt-get -y install $BUILD_PACKAGES && \
-apt-get remove --purge -y software-properties-common && \
 apt-get autoremove -y && \
 apt-get clean && \
 apt-get autoclean && \
@@ -61,9 +55,9 @@ ADD ./nginx-site.conf /etc/nginx/sites-available/default.conf
 RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 
 # Add git commands to allow container updating
-ADD ./pull /usr/bin/pull
-ADD ./push /usr/bin/push
-RUN chmod 755 /usr/bin/pull && chmod 755 /usr/bin/push
+#ADD ./pull /usr/bin/pull
+#ADD ./push /usr/bin/push
+#RUN chmod 755 /usr/bin/pull && chmod 755 /usr/bin/push
 
 # Supervisor Config
 ADD ./supervisord.conf /etc/supervisord.conf
@@ -74,10 +68,6 @@ RUN chmod 755 /start.sh
 
 # Setup Volume
 VOLUME ["/usr/share/nginx/html"]
-
-# add test PHP file
-ADD ./index.php /usr/share/nginx/html/index.php
-RUN chown -Rf www-data.www-data /usr/share/nginx/html/
 
 # Expose Ports
 EXPOSE 443
