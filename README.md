@@ -3,6 +3,8 @@ This is a Dockerfile to build a container image for nginx and php-fpm, with the 
 
 This branch is customized to a specific site, so I removed all the things it didn't need. Also used Ubuntu Wily 15.10.
 
+> **Note to self: DO NOT DELETE THIS REPO!!! Used by DMAT.**
+
 ### Git repository
 The source files for this project can be found here: [https://github.com/ngineered/nginx-php-fpm](https://github.com/ngineered/nginx-php-fpm)
 
