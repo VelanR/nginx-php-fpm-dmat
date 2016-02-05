@@ -5,7 +5,7 @@ MAINTAINER Diana Soares <dsoares@fc.up.pt>
 RUN dpkg-divert --local --rename --add /sbin/initctl
 RUN ln -sf /bin/true /sbin/initctl
 
-# Let the conatiner know that there is no tty
+# Let the container know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
 # Update base image
@@ -62,7 +62,7 @@ ADD ./start.sh /start.sh
 RUN chmod 755 /start.sh
 
 # Setup Volume
-VOLUME ["/usr/share/nginx/html"]
+#VOLUME ["/usr/share/nginx/html"]
 
 # Expose Ports
 EXPOSE 443
